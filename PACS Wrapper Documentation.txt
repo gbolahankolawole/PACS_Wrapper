@@ -1,0 +1,158 @@
+*********** ALWAYS APPEND SERVER NAME TO WHATEVER IS RETURNED *******************
+HELPFUL LINKS
+MSDICOM
+Docs: https://github.com/microsoft/dicom-server/tree/main/docs
+Resources: https://github.com/microsoft/dicom-server/tree/main/docs/resources
+Conformance statement: https://github.com/microsoft/dicom-server/blob/main/docs/resources/conformance-statement.md
+Health Check: https://github.com/microsoft/dicom-server/blob/main/docs/resources/health-check-api.md
+API access using Python: https://github.com/microsoft/dicom-server/blob/main/docs/resources/use-dicom-web-standard-apis-with-python.ipynb
+https://github.com/microsoft/dicom-server/blob/main/docs/tutorials/use-dicom-web-standard-apis-with-python.md
+Posting DCM Files via Postman: https://github.com/microsoft/dicom-server/blob/main/docs/development/setup.md#posting-dicom-files-using-postman
+Sample Metadata: https://github.com/microsoft/dicom-server/blob/main/docs/dcms/dicom-metadata.csv
+Subcomponents and Performance: https://github.com/microsoft/dicom-server/blob/main/docs/resources/performance-guidance.md
+Basic configuration settings: https://github.com/microsoft/dicom-server/blob/main/docs/how-to-guides/configure-dicom-server-settings.md
+Subcomponents: https://github.com/microsoft/dicom-server/blob/main/docs/concepts/dicom.md#deployment-of-medical-imaging-server-for-dicom-to-azure
+Subcomponent Code Layout: https://github.com/microsoft/dicom-server/blob/main/docs/development/code-organization.md
+Deploy Teemplate: https://github.com/microsoft/dicom-server/blob/main/samples/templates/default-azuredeploy.json
+
+DCM4CHEE
+API List: https://github.com/dcm4che/dcm4chee-arc-light/wiki/RESTful-Services
+Swagger UI: https://petstore.swagger.io/index.html?url=https://raw.githubusercontent.com/dcm4che/dcm4chee-arc-light/master/dcm4chee-arc-ui2/src/swagger/openapi.json
+
+OTHERS
+
+TRYING BOTH PACS
+get operation
+get operation params
+get operation mode (both MSDICOM and DCM4CHEE, either MSDICOM and DCM4CHEE, or exactly one)
+try on MSDICOM
+---> if successful, return result
+---> else try DCM4CHEE, return result
+
+CHECK IMAGE EXISTS
+check pacs for the image
+return true or false
+if flag exists, include image metadata
+
+CHECK series EXISTS
+check pacs for the series
+return true or false
+if flag exists, include series metadata
+
+CHECK STUDY EXISTS
+check pacs for the study
+return true or false
+if flag exists, include study metadata
+
+UPLOAD STUDY
+push study to pacs
+---> if not successful, return error message
+---> if successful, get image UID
+---> get metadata using image UID
+---> generate viewer link
+---> return payload
+
+UPDATE STUDY (UPLOAD IMAGE)
+push image to study on pacs
+---> if not successful, return error message
+---> if successful, get image UID
+---> get metadata using image UID
+---> generate viewer link
+---> return payload (include server_type)
+
+GET ALL STUDIES
+request studies list from pacs
+return result
+
+DELETE STUDY
+request delete from pacs
+
+DELETE SERIES
+request delete from pacs
+
+DELETE IMAGE
+request delete from pacs
+
+DELETE ALL STUDIES
+request studies list from pacs
+delete all studies from pacs
+
+DOWNLOAD STUDY
+download study from pacs
+
+UPLOAD_PREPROCESSING
+REQUIRED: IMAGE_URL
+new image comes in
+get the image UID
+check if the image already exists (both MSDICOM and DCM4CHEE)
+--->if yes, return error
+--->if no
+-----> get study UID
+-----> check if study exists (both MSDICOM and DCM4CHEE)
+--------> if study exist on MSDICOM, push to MSDICOM only (update)
+--------> else study exist on DCM4CHEE, push to DCM4CHEE only (update) 
+--------> else study does not exist, push to MSDICOM or DCM4CHEE
+return payload
+
+METADATA_PREPROCESSING
+REQUIRED: TYPE (IMAGE, SERIES, STUDY), UID
+check if type exists, add flag for metadata (try both pacs)
+
+
+GET_ALL_STUDIES_PREPROCESSING
+get all studies (try both pacs)
+
+
+DELETE_STUDY_PREPROCESSING
+REQUIRED:TYPE (IMAGE, SERIES, STUDY), UID
+check if type exist (try both pacs)
+----> if yes, delete study (try both pacs)
+----> if no, return error 
+
+
+DELETE_ALL_STUDIES_PREPROCESSING
+REQUIRED: OPTIONAL SERVER_LIST
+delete all studies (try both pacs with server list) 
+
+
+DOWNLOAD_STUDY_PREPROCESSING
+REQUIRED:STUDY UID
+check if type exist (try both pacs)
+----> if yes, download study (try both pacs)
+----> if no, return error 
+
+
+
+
+
+
+
+ADMIN
+CHECK PACS SERVER STATUS
+get server status
+----> if server responds, return result
+----> else return 'server not responding'
+
+CHECK_PACS_SERVER_STATUS_PREPROCESSING
+get server status (get both pacs)
+return result
+
+CHECK STORAGE
+
+
+CHECK DB
+
+
+LOGGING
+https://flask.palletsprojects.com/en/2.0.x/logging/
+https://www.askpython.com/python-modules/flask/flask-logging
+https://www.sentinelone.com/blog/getting-started-quickly-with-flask-logging/
+https://docs.python.org/2/library/logging.html#logrecord-attributes
+https://logtail.com/tutorials/how-to-start-logging-with-flask/
+https://medium.com/analytics-vidhya/setting-up-logging-in-python-and-flask-application-the-right-way-e4489c759e8d
+https://medium.com/tenable-techblog/the-boring-stuff-flask-logging-21c3a5dd0392
+
+
+
+
+INTIAL BLOB ->
