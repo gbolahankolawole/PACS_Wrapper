@@ -1,0 +1,15 @@
+#flask
+Flask[async]
+
+#flask exxtensions
+Flask-Cors
+flask-restx
+
+# env
+python-dotenv
+
+#others
+beautifulsoup4
+requests
+
+
